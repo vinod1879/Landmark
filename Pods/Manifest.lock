@@ -1,0 +1,15 @@
+PODS:
+  - Alamofire (3.4.1)
+  - HTMLReader (1.0.1)
+
+DEPENDENCIES:
+  - Alamofire
+  - HTMLReader
+
+SPEC CHECKSUMS:
+  Alamofire: 01a82e2f6c0f860ade35534c8dd88be61bdef40c
+  HTMLReader: 9c9a018b11d7e9884a52ab97ce1bd23bdca7fddb
+
+PODFILE CHECKSUM: a2def9a0c3ab7fcda990fdaaa0c5d3b36bf72dea
+
+COCOAPODS: 1.0.0
