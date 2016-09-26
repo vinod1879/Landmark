@@ -8,10 +8,6 @@
 
 import UIKit
 
-private let header = "<html>\n<head>\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, user-scalable=no\">\n<link rel=\"stylesheet\" type=\"text/css\" media=\"all\" href=\"/_ui/responsive/landmark/css/lms.min.css\">\n<script src=\"/_ui/responsive/landmark/js/vendor/require.min.js\" data-main=\"/_ui/responsive/landmark/js/lms.min\"></script>\n<link href=\"https://fonts.googleapis.com/css?family=Lato:400,300,100,700,900\" rel=\"stylesheet\" type=\"text/css\"></head>\n<body class=\"modal-open page-brandlifestylepage page-brandmaxpage page-brandBabyshoppage page-brandSplashpage page-brandcenterpointpage page-brandShoemartpage page-brandHomecentrepage pageType-ContentPage template-pages-layout-lmgBrandPageLayout pageLabel-brandlifestylepage language-en brandProtection staticPages i18n-ae\">\n<div id=\"wrapper\" style=\"padding-top:0px;\">\n<main id=\"main-part\" style=\"min-height: auto;\">\n<div class=\"container-fluid\" id=\"container-main-area\">"
-
-private let footer = "\n\n\n</div>\n</main>\n</div>\n</body>\n</html>"
-
 class ViewController: UIViewController {
     
     private var dataController = DataController()
@@ -24,15 +20,13 @@ class ViewController: UIViewController {
         dataController.fetchData { error in
             
             print(error)
-            if let str = self.dataController.carouselString {
+            if let elementHTML = self.dataController.targetElementHTMLString {
                 
-                let url = NSURL(string: "http://landmarkshops.com")
+                let url = NSURL(string: Config.HostURLString)
                 
-                let html = header + str + footer
-                var sanitized = html.stringByReplacingOccurrencesOfString("\t", withString: "")
-                sanitized = sanitized.stringByReplacingOccurrencesOfString("\n", withString: "")
+                let html = Config.Header + elementHTML + Config.footer
                 
-                self.webView.loadHTMLString(sanitized, baseURL: url)
+                self.webView.loadHTMLString(html, baseURL: url)
             }
         }
     }
@@ -52,7 +46,11 @@ extension ViewController : UIWebViewDelegate {
     
     func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
         
-        return true
+        if request.URLString == Config.HostURLString {
+        
+            return true
+        }
+        return false
     }
     
     func webViewDidFinishLoad(webView: UIWebView) {

@@ -10,16 +10,16 @@ import UIKit
 import Alamofire
 import HTMLReader
 
-private let URLString = "http://www.landmarkshops.com"
-private let targetString = "products-carousel gallery-js-ready"
+private let DivElement = "div"
+private let ClassAttr  = "class"
 
 class DataController: NSObject {
     
-    private var targetDiv : HTMLElement?
+    private var targetElement : HTMLElement?
     
-    var carouselString : String? {
+    var targetElementHTMLString : String? {
         
-        if let div = targetDiv {
+        if let div = targetElement {
             
             return div.serializedFragment
         }
@@ -29,7 +29,7 @@ class DataController: NSObject {
     
     func fetchData (completion:(NSError?) -> Void) {
      
-        Alamofire.request(.GET, URLString)
+        Alamofire.request(.GET, Config.HostURLString)
         .responseString { responseString in
             
             self.validateResponse(responseString, completion: completion)
@@ -53,19 +53,18 @@ class DataController: NSObject {
         
         let document = HTMLDocument(string: htmlString)
         
-        let divElements = document.nodesMatchingSelector("div")
+        let divElements = document.nodesMatchingSelector(DivElement)
         print(divElements.count)
         
         for div in divElements {
             
             let attr = div.attributes
             
-            guard let classValue = attr["class"] else { continue }
+            guard let classValue = attr[ClassAttr] else { continue }
             
-
-            if classValue.containsString(targetString) {
+            if classValue.containsString(Config.TargetClass) {
              
-                targetDiv = div
+                targetElement = div
                 
                 print("Success")
                 break
