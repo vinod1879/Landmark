@@ -12,32 +12,61 @@ private let screenWidth = CGRectGetWidth(UIScreen.mainScreen().bounds)
 private let margin      = CGFloat(10)
 private let cellWidth   = (screenWidth - 2*margin)/2
 
+//MARK:- Class Implementation
+
 class ViewController: UIViewController {
     
     private var dataController = DataController()
-    private var products        : [Product]?
+    private var products        : [Product]? {
+        
+        didSet {
+            
+            productsCollectionView?.reloadData()
+        }
+    }
     
     @IBOutlet private weak var productsCollectionView   : UICollectionView!
     @IBOutlet private weak var pageControl              : UIPageControl!
+    @IBOutlet private weak var refreshButtonItem        : UIBarButtonItem!
+    @IBOutlet private weak var animator                 : UIActivityIndicatorView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        findProducts()
+    }
+    
+    private func findProducts () {
+        
+        products                    = nil
+        pageControl.numberOfPages   = 0
+        refreshButtonItem.enabled   = false
+        
+        animator.startAnimating()
+        
         dataController.fetchData { error in
-
+            
+            self.animator.stopAnimating()
             self.reloadProducts ()
         }
     }
     
     private func reloadProducts () {
         
+        refreshButtonItem.enabled  = true
+        
         products   = dataController.parsedProducts
         
         pageControl.numberOfPages = (products?.count ?? 0) / 2
+    }
+    
+    @IBAction private func refresh () {
         
-        productsCollectionView.reloadData()
+        findProducts()
     }
 }
+
+//MARK:- UICollectionView delegate/datasource methods
 
 extension ViewController : UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     

@@ -129,21 +129,44 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="g7y-jf-ugk"/>
                                 </connections>
                             </collectionView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ctU-gv-A9y">
+                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="nIA-el-oK4"/>
+                                    <barButtonItem title="Item" systemItem="refresh" id="40c-Q7-2bW">
+                                        <color key="tintColor" red="0.13383152170000001" green="0.76848796580000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <action selector="refresh" destination="BYZ-38-t0r" id="dzF-2G-cBJ"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="Vhl-E3-xcE"/>
+                                </items>
+                            </toolbar>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="tyR-aW-CzH">
+                                <rect key="frame" x="177" y="323.5" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="agf-GW-nCm" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="4wD-4c-ZV5"/>
                             <constraint firstItem="agf-GW-nCm" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="8jt-EB-m2r"/>
                             <constraint firstAttribute="trailing" secondItem="2ag-iR-sOq" secondAttribute="trailing" id="A0V-I1-FRG"/>
+                            <constraint firstItem="tyR-aW-CzH" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Gqa-Ck-WYg"/>
                             <constraint firstItem="2ag-iR-sOq" firstAttribute="top" secondItem="agf-GW-nCm" secondAttribute="bottom" id="Ldi-nE-RTD"/>
+                            <constraint firstAttribute="trailing" secondItem="ctU-gv-A9y" secondAttribute="trailing" id="Lk9-HI-avz"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="ctU-gv-A9y" secondAttribute="bottom" id="bVo-RX-l9r"/>
                             <constraint firstAttribute="trailing" secondItem="agf-GW-nCm" secondAttribute="trailing" id="f8U-Lu-09i"/>
+                            <constraint firstItem="tyR-aW-CzH" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="iZb-CF-aLr"/>
+                            <constraint firstItem="ctU-gv-A9y" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="mIh-KQ-TNi"/>
                             <constraint firstItem="2ag-iR-sOq" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="roV-nI-2DR"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="animator" destination="tyR-aW-CzH" id="DGM-nq-BLI"/>
                         <outlet property="pageControl" destination="2ag-iR-sOq" id="Rz9-Nw-eG6"/>
                         <outlet property="productsCollectionView" destination="agf-GW-nCm" id="wyw-W5-9jY"/>
+                        <outlet property="refreshButtonItem" destination="40c-Q7-2bW" id="Xsr-kr-kMy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
