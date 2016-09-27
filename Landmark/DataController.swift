@@ -10,22 +10,14 @@ import UIKit
 import Alamofire
 import HTMLReader
 
-private let DivElement = "div"
-private let ClassAttr  = "class"
+/*
+
+    Class to make HTTP Requests and Parse Products
+*/
 
 class DataController: NSObject {
     
-    private var targetElement : HTMLElement?
-    
-    var targetElementHTMLString : String? {
-        
-        if let div = targetElement {
-            
-            return div.serializedFragment
-        }
-        
-        return nil
-    }
+    var parsedProducts : [Product]?
     
     func fetchData (completion:(NSError?) -> Void) {
      
@@ -53,24 +45,87 @@ class DataController: NSObject {
         
         let document = HTMLDocument(string: htmlString)
         
-        let divElements = document.nodesMatchingSelector(DivElement)
-        print(divElements.count)
-        
-        for div in divElements {
+        if let carousel = document.firstNodeMatchingSelector(Landmark.Classes.carousel) {
             
-            let attr = div.attributes
-            
-            guard let classValue = attr[ClassAttr] else { continue }
-            
-            if classValue.containsString(Config.TargetClass) {
-             
-                targetElement = div
-                
-                print("Success")
-                break
-            }
+            parseCarouselElement(carousel)
         }
         
         completion(nil)
+    }
+    
+    private func parseCarouselElement(carousel: HTMLElement) {
+        
+        let li = carousel.nodesMatchingSelector(Landmark.Classes.product)
+        
+        var products = [Product]()
+        
+        for item in li {
+            
+            var product = Product()
+            
+            if let image = item.firstNodeMatchingSelector(Landmark.Tags.image) {
+                
+                product.imageSource = image.attributes[Landmark.Attributes.source]
+            }
+            
+            let titleAnchors = item.nodesMatchingSelector(Landmark.Classes.productTitle)
+            
+            if titleAnchors.count > 0 {
+                
+                product.title = titleAnchors[0].innerHTML.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            }
+            
+            if titleAnchors.count > 1 {
+                
+                product.aboutItem = titleAnchors[1].innerHTML
+            }
+            
+            if let priceSection = item.firstNodeMatchingSelector(Landmark.Tags.priceSection) {
+                
+                if let priceText = priceSection.firstNodeMatchingSelector(Landmark.Tags.sellingPrice)?.innerHTML {
+                    
+                    product.price = priceText.stringByReplacingOccurrencesOfString("&nbsp;", withString: " ")
+                }
+                
+                if let strikeThruText = priceSection.firstNodeMatchingSelector(Landmark.Tags.strikeThru)?.innerHTML {
+                    
+                    product.strikeThru = strikeThruText.stringByReplacingOccurrencesOfString("&nbsp;", withString: " ")
+                }
+            }
+            
+            products.append(product)
+        }
+        
+        parsedProducts = products
+        print(li.count)
+    }
+}
+
+/*
+
+    Struct to list elements in the HTML we're interested in
+
+*/
+
+struct Landmark {
+    
+    struct Classes {
+        
+        static let carousel         = ".products-carousel"
+        static let product          = ".product-item"
+        static let productTitle     = ".title"
+    }
+    
+    struct Tags {
+        
+        static let image            = "img"
+        static let priceSection     = "strong"
+        static let sellingPrice     = "span"
+        static let strikeThru       = "del"
+    }
+    
+    struct Attributes {
+    
+        static let source           = "src"
     }
 }

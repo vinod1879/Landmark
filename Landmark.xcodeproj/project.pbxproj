@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0B74817C1D9AACBB004C9477 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B74817B1D9AACBB004C9477 /* Product.swift */; };
 		0BB1AF3A1D9873A100A9FAFB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB1AF391D9873A100A9FAFB /* AppDelegate.swift */; };
 		0BB1AF3C1D9873A100A9FAFB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB1AF3B1D9873A100A9FAFB /* ViewController.swift */; };
 		0BB1AF3F1D9873A100A9FAFB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0BB1AF3D1D9873A100A9FAFB /* Main.storyboard */; };
@@ -19,6 +20,7 @@
 
 /* Begin PBXFileReference section */
 		02B792B7D57CB6F6BDB67646 /* Pods_Landmark.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Landmark.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0B74817B1D9AACBB004C9477 /* Product.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		0BB1AF361D9873A100A9FAFB /* Landmark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Landmark.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BB1AF391D9873A100A9FAFB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0BB1AF3B1D9873A100A9FAFB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -73,6 +75,7 @@
 		0BB1AF381D9873A100A9FAFB /* Landmark */ = {
 			isa = PBXGroup;
 			children = (
+				0B74817B1D9AACBB004C9477 /* Product.swift */,
 				0BB1AF391D9873A100A9FAFB /* AppDelegate.swift */,
 				0BB1AF4B1D98865D00A9FAFB /* DataController.swift */,
 				0BB1AF4D1D98993000A9FAFB /* Config.swift */,
@@ -218,6 +221,7 @@
 			files = (
 				0BB1AF3C1D9873A100A9FAFB /* ViewController.swift in Sources */,
 				0BB1AF4E1D98993000A9FAFB /* Config.swift in Sources */,
+				0B74817C1D9AACBB004C9477 /* Product.swift in Sources */,
 				0BB1AF4C1D98865D00A9FAFB /* DataController.swift in Sources */,
 				0BB1AF3A1D9873A100A9FAFB /* AppDelegate.swift in Sources */,
 			);
