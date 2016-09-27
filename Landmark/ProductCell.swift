@@ -28,7 +28,8 @@ class ProductCell: UICollectionViewCell {
         
         if let url = NSURL(string: product.imageSource ?? "") {
         
-            imageView.sd_setImageWithURL(url)
+            let placeholder = UIImage(named: "placeholder")
+            imageView.sd_setImageWithURL(url, placeholderImage: placeholder)
         }
     }
     
