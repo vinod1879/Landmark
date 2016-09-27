@@ -45,8 +45,11 @@ class DataController: NSObject {
         
         let document = HTMLDocument(string: htmlString)
         
-        if let carousel = document.firstNodeMatchingSelector(Landmark.Classes.carousel) {
+        let carousels = document.nodesMatchingSelector(Landmark.Classes.carousel)
+        
+        if carousels.count > 0 {
             
+            let carousel = carousels[Utility.randomNumberInRange(carousels.count)] // Select random carousel
             parseCarouselElement(carousel)
         }
         
