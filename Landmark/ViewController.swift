@@ -8,57 +8,71 @@
 
 import UIKit
 
+private let screenWidth = CGRectGetWidth(UIScreen.mainScreen().bounds)
+private let margin      = CGFloat(10)
+private let cellWidth   = (screenWidth - 3*margin)/2
+
 class ViewController: UIViewController {
     
     private var dataController = DataController()
+    private var products        : [Product]?
     
-    @IBOutlet private weak var webView : UIWebView!
+    @IBOutlet private weak var productsCollectionView   : UICollectionView!
+    @IBOutlet private weak var pageControl              : UIPageControl!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         dataController.fetchData { error in
-            
-            print(error)
-            if let elementHTML = self.dataController.targetElementHTMLString {
-                
-                let url = NSURL(string: Config.HostURLString)
-                
-                let html = Config.Header + elementHTML + Config.footer
-                
-                self.webView.loadHTMLString(html, baseURL: url)
-            }
+
+            self.reloadProducts ()
         }
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    private func reloadProducts () {
+        
+        products   = dataController.parsedProducts
+        
+        pageControl.numberOfPages = (products?.count ?? 0) / 2
+        
+        productsCollectionView.reloadData()
     }
 }
 
-extension ViewController : UIWebViewDelegate {
+extension ViewController : UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
-    func webView(webView: UIWebView, didFailLoadWithError error: NSError?) {
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         
-        
+        return 1
     }
     
-    func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        if request.URLString == Config.HostURLString {
-        
-            return true
-        }
-        return false
+        return products?.count ?? 0
     }
     
-    func webViewDidFinishLoad(webView: UIWebView) {
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(ProductCell.reuseId, forIndexPath: indexPath) as! ProductCell
         
+        let product = products![indexPath.row]
+        cell.showProduct(product)
+        
+        return cell
     }
     
-    func webViewDidStartLoad(webView: UIWebView) {
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        
+        let height = CGRectGetHeight(collectionView.bounds)
+        
+        return CGSize(width: cellWidth, height: height)
+    }
     
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+        
+        let pageWidth   = screenWidth
+        let currentPage = Int(scrollView.contentOffset.x / pageWidth)
+        
+        pageControl.currentPage = currentPage
     }
 }
 
