@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class ProductCell: UICollectionViewCell {
     
@@ -20,9 +21,27 @@ class ProductCell: UICollectionViewCell {
     
     func showProduct (product: Product) {
         
-        name.text            = product.title
-        about.text           = product.aboutItem
-        price.text           = product.price
-        strikeThru.text      = product.strikeThru
+        name.text                   = product.title
+        about.text                  = product.aboutItem
+        price.text                  = product.price
+        strikeThru.attributedText   = attributedStrikeThruTextForString(product.strikeThru)
+        
+        if let url = NSURL(string: product.imageSource ?? "") {
+        
+            imageView.sd_setImageWithURL(url)
+        }
+    }
+    
+    private func attributedStrikeThruTextForString(string: String?) -> NSAttributedString {
+        
+        let attrStr     = NSMutableAttributedString(string: string ?? "")
+        
+        let attributes  = [  NSStrikethroughColorAttributeName: UIColor(white: 0.65, alpha: 1),
+                            NSStrikethroughStyleAttributeName: NSNumber(integer:NSUnderlineStyle.StyleSingle.rawValue)
+                          ]
+        
+        attrStr.addAttributes(attributes, range: NSMakeRange(0, attrStr.length))
+        
+        return attrStr
     }
 }

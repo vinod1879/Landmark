@@ -10,7 +10,7 @@ import UIKit
 
 private let screenWidth = CGRectGetWidth(UIScreen.mainScreen().bounds)
 private let margin      = CGFloat(10)
-private let cellWidth   = (screenWidth - 3*margin)/2
+private let cellWidth   = (screenWidth - 2*margin)/2
 
 class ViewController: UIViewController {
     
